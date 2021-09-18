@@ -47,10 +47,17 @@ func WinnerCalc(aE *widget.Entry, dE *widget.Entry, hE *widget.Entry, tE *widget
 
 	e.attackEntryText, e.defenceEntryText, e.healthEntryText, e.troopsEntryText, e.attackDefenderEntryText, e.defenceDefenderEntryText, e.healthDefenderEntryText, e.troopsDefenderEntryText = strUtils.StrToInt(aE, dE, hE, tE, aDE, dDE, hDE, tDE)
 
-	p.PowerAttacker = uint32(e.attackEntryText) + uint32(e.defenceEntryText) + uint32(e.healthEntryText)
-	p.PowerTrAttacker = uint64(p.PowerAttacker) * uint64(e.troopsEntryText)
-	p.PowerDefender = uint32(e.attackDefenderEntryText) + uint32(e.defenceDefenderEntryText) + uint32(e.healthDefenderEntryText)
-	p.PowerTrDefender = uint64(p.PowerDefender) * uint64(e.troopsDefenderEntryText)
+if d.DecreaseAtkPerc >0 || d.DecreaseDefPerc >0 || d.DecreaseSalPerc >0 {
+  p.PowerAttacker = uint32(d.AtkDecreased) + uint32(d.DefDecreased) + uint32(d.SalDecreased)
+  p.PowerTrAttacker = uint64(p.PowerAttacker) * uint64(e.troopsEntryText)
+  p.PowerDefender = uint32(e.attackDefenderEntryText) + uint32(e.defenceDefenderEntryText) + uint32(e.healthDefenderEntryText)
+  p.PowerTrDefender = uint64(p.PowerDefender) * uint64(e.troopsDefenderEntryText)
+} else {
+  p.PowerAttacker = uint32(e.attackEntryText) + uint32(e.defenceEntryText) + uint32(e.healthEntryText)
+  p.PowerTrAttacker = uint64(p.PowerAttacker) * uint64(e.troopsEntryText)
+  p.PowerDefender = uint32(e.attackDefenderEntryText) + uint32(e.defenceDefenderEntryText) + uint32(e.healthDefenderEntryText)
+  p.PowerTrDefender = uint64(p.PowerDefender) * uint64(e.troopsDefenderEntryText)
+}
 
 	if p.PowerAttacker < p.PowerDefender {
 		p.PowerWeaker = p.PowerAttacker
